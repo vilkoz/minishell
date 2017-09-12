@@ -1,20 +1,59 @@
 #include "minishell.h"
 
+char	**get_path(char **envp)
+{
+	size_t	i;
+
+	i = -1;
+	while (envp[++i] != NULL)
+	{
+		if (ft_strncmp("PATH=", envp[i], 5) == 0)
+			return (ft_strsplit(&(envp[i][5]), ':'));
+	}
+	return (NULL);
+}
+
+void	run_single(char **command, char **envp)
+{
+	if (execve(command[0], command, envp) == -1)
+	{
+		ft_putstr_fd("shell: execve single error\n", 2);
+		exit(1);
+	}
+}
+
+void	run_with_path(char **command, char **path, char **envp)
+{
+	size_t	i;
+	char	*executable_name;
+
+	if (command[0][0] == '/' || command[0][0] == '.' || path == NULL)
+	{
+		run_single(command, envp);
+		return ;
+	}
+	i = 0;
+	executable_name = ft_strdup(command[0]);
+	while (execve(command[0], command, envp) == -1 && envp[i] != NULL)
+	{
+		command[0] = ft_strjoin(ft_strjoin(path[i], "/"), executable_name);
+		i++;
+	}
+	if (envp[i] == NULL)
+	{
+		ft_putstr_fd("shell: execve error\n", 2);
+		exit(1);
+	}
+}
+
 void	run_command(char **command, char **envp)
 {
 	pid_t	pid;
-	/* pid_t	wait_pid; */
 	int		status;
 
 	pid = fork();
 	if (pid == 0)
-	{
-		if (execve(command[0], command, envp) == -1)
-		{
-			ft_putstr_fd("shell: execve error\n", 2);
-			exit(1);
-		}
-	}
+		run_with_path(command, get_path(envp), envp);
 	else if (pid > 0)
 	{
 		waitpid(pid, &status, 0);
