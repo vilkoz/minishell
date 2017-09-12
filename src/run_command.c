@@ -22,6 +22,7 @@ void	run_single(char **command, char **envp)
 	}
 }
 
+
 void	run_with_path(char **command, char **path, char **envp)
 {
 	size_t	i;
@@ -34,16 +35,19 @@ void	run_with_path(char **command, char **path, char **envp)
 	}
 	i = 0;
 	executable_name = ft_strdup(command[0]);
-	while (execve(command[0], command, envp) == -1 && envp[i] != NULL)
+	while (execve(command[0], command, envp) == -1 && path[i] != NULL)
 	{
+		ft_strdel(&(command[0]));
 		command[0] = ft_strjoin(ft_strjoin(path[i], "/"), executable_name);
 		i++;
 	}
-	if (envp[i] == NULL)
+	if (path[i] == NULL)
 	{
-		ft_putstr_fd("shell: execve error\n", 2);
+		ft_putstr_fd("shell: command not found\n", 2);
 		exit(1);
 	}
+	ft_strdel(&executable_name);
+	exit(1);
 }
 
 void	run_command(char **command, char **envp)
@@ -51,6 +55,8 @@ void	run_command(char **command, char **envp)
 	pid_t	pid;
 	int		status;
 
+	if (run_builtin(command, envp))
+		return ;
 	pid = fork();
 	if (pid == 0)
 		run_with_path(command, get_path(envp), envp);

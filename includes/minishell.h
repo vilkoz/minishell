@@ -11,5 +11,14 @@
 char	**parse_line(char *line);
 char	*read_line(int fd);
 void	run_command(char **command, char **envp);
+int		run_builtin(char **command, char **envp);
+
+/*
+** Builtins
+*/
+
+void	minishell_echo(int argc, char **argv, char **env);
+void	minishell_cd(int argc, char **argv, char **env);
+void	minishell_exit(int argc, char **argv, char **env);
 
 #endif

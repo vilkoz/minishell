@@ -12,7 +12,9 @@ LIB = libft/libft.a
 
 SRCS = main.c			\
 	   parse_line.c		\
-	   run_command.c
+	   run_command.c	\
+	   run_builtin.c	\
+	   builtins.c
 
 BINS = $(addprefix $(BIN_DIR), $(SRCS:.c=.o))
 
