@@ -20,5 +20,6 @@ int		run_builtin(char **command, char **envp);
 void	minishell_echo(int argc, char **argv, char **env);
 void	minishell_cd(int argc, char **argv, char **env);
 void	minishell_exit(int argc, char **argv, char **env);
+void	minishell_env(int argc, char **argv, char **env);
 
 #endif

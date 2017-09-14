@@ -16,6 +16,8 @@ void	(*check_builtin(char *name))(int, char **, char **)
 		return minishell_echo;
 	else if (!strcmp("cd", name))
 		return minishell_cd;
+	else if (!strcmp("env", name))
+		return minishell_env;
 	else if (!strcmp("exit", name))
 		return minishell_exit;
 	return NULL;

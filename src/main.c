@@ -18,6 +18,8 @@ void	minishell_loop(char **envp)
 			command = parse_line(line);
 			run_command(command, envp);
 		}
+		else
+			exit(write(1, "\n", 1));
 		ft_strdel(&line);
 	}
 }

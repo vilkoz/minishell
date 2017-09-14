@@ -31,6 +31,13 @@ void	minishell_cd(int argc, char **argv, char **env)
 	}
 }
 
+void	minishell_env(int argc, char **argv, char **env)
+{
+	(void)argc;
+	(void)argv;
+	ft_print_array(env);
+}
+
 void	minishell_exit(int argc, char **argv, char **env)
 {
 	(void)argc;
