@@ -3,7 +3,7 @@
 char	*read_line(int fd)
 {
 	char	*buf;
-	size_t	i;
+	int		i;
 	size_t	cur_byte;
 	size_t	current_buf_size;
 
@@ -12,9 +12,9 @@ char	*read_line(int fd)
 	current_buf_size = BUF_SIZE;
 	buf = (char*)malloc(sizeof(char) * BUF_SIZE);
 	cur_byte = 0;
-	while ((i = read(fd, (void*)(buf + cur_byte), 1)) > 0)
+	while ((i = read(fd, (void*)(buf + cur_byte), 1)) >= 0)
 	{
-		if (buf[cur_byte] == '\n')
+		if (buf[cur_byte] == '\n' || i == 0)
 		{
 			buf[cur_byte] = '\0';
 			return (buf);
