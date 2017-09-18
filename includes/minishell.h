@@ -22,5 +22,6 @@ void	minishell_cd(int argc, char **argv, char ***env);
 void	minishell_exit(int argc, char **argv, char ***env);
 void	minishell_env(int argc, char **argv, char ***env);
 void	minishell_getenv(int argc, char **argv, char ***env);
+void	minishell_setenv(int argc, char **argv, char ***env);
 
 #endif

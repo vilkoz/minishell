@@ -22,6 +22,8 @@ void	(*check_builtin(char *name))(int, char **, char ***)
 		return minishell_exit;
 	else if (!strcmp("getenv", name))
 		return minishell_getenv;
+	else if (!strcmp("setenv", name))
+		return minishell_setenv;
 	return NULL;
 }
 
