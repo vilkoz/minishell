@@ -35,6 +35,6 @@ char	**parse_line(char *line)
 {
 	char	**command;
 
-	command = ft_strsplit(line, ' ');
+	command = ft_strsplit_quote(line, ' ');
 	return (command);
 }

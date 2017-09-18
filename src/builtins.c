@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	minishell_echo(int argc, char **argv, char **env)
+void	minishell_echo(int argc, char **argv, char ***env)
 {
 	int i;
 
@@ -10,7 +10,7 @@ void	minishell_echo(int argc, char **argv, char **env)
 		ft_putstr(argv[i]);
 }
 
-void	minishell_cd(int argc, char **argv, char **env)
+void	minishell_cd(int argc, char **argv, char ***env)
 {
 	(void)env;
 	if (argc != 2)
@@ -31,14 +31,14 @@ void	minishell_cd(int argc, char **argv, char **env)
 	}
 }
 
-void	minishell_env(int argc, char **argv, char **env)
+void	minishell_env(int argc, char **argv, char ***env)
 {
 	(void)argc;
 	(void)argv;
-	ft_print_array(env);
+	ft_print_array(*env);
 }
 
-void	minishell_exit(int argc, char **argv, char **env)
+void	minishell_exit(int argc, char **argv, char ***env)
 {
 	(void)argc;
 	(void)argv;

@@ -14,7 +14,8 @@ SRCS = main.c			\
 	   parse_line.c		\
 	   run_command.c	\
 	   run_builtin.c	\
-	   builtins.c
+	   builtins.c		\
+	   env.c
 
 BINS = $(addprefix $(BIN_DIR), $(SRCS:.c=.o))
 

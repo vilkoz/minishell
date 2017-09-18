@@ -10,7 +10,7 @@ int		get_array_size(char **array)
 	return (len);
 }
 
-void	(*check_builtin(char *name))(int, char **, char **)
+void	(*check_builtin(char *name))(int, char **, char ***)
 {
 	if (!strcmp("ehco", name))
 		return minishell_echo;
@@ -20,6 +20,8 @@ void	(*check_builtin(char *name))(int, char **, char **)
 		return minishell_env;
 	else if (!strcmp("exit", name))
 		return minishell_exit;
+	else if (!strcmp("getenv", name))
+		return minishell_getenv;
 	return NULL;
 }
 
@@ -30,8 +32,8 @@ int		run_builtin(char **command, char **envp)
 	function = check_builtin(command[0]);
 	if (function != NULL)
 	{
-		((void(*)(int, char **, char **))function)(get_array_size(command),
-			command, envp);
+		((void(*)(int, char **, char ***))function)(get_array_size(command),
+			command, &envp);
 		return (1);
 	}
 	return (0);
