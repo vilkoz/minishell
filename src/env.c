@@ -4,19 +4,15 @@ static char		*find_env(const char *name, char **env)
 {
 	int 	i;
 	char	*ret;
-	char	**value;
+	char	*value;
 
 	i = -1;
 	while(env[++i] != NULL)
 	{
-		if (!ft_strncmp(name, env[i], ft_strlen(name)))
+		if (!ft_strncmp(name, env[i], ft_strlen(name)) &&
+			(value = ft_strchr(env[i], '=')) != NULL)
 		{
-			value = ft_strsplit(env[i], '=');
-			ret = ft_strdup(value[1]);
-			i = -1;
-			while (value[++i] != NULL)
-				ft_strdel(&(value[i]));
-			ft_memdel((void*)&value);
+			ret = ft_strdup(value + 1);
 			return (ret);
 		}
 	}
