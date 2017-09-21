@@ -1,29 +1,12 @@
 #include "minishell.h"
 
-static char		*find_env(const char *name, char **env)
-{
-	int 	i;
-	char	*ret;
-	char	*value;
-
-	i = -1;
-	while(env[++i] != NULL)
-	{
-		if (!ft_strncmp(name, env[i], ft_strlen(name)) &&
-			(value = ft_strchr(env[i], '=')) != NULL)
-		{
-			ret = ft_strdup(value + 1);
-			return (ret);
-		}
-	}
-	return (NULL);
-}
 
 static char		**add_to_env(char ***env, char *key, char *value)
 {
 	int		size;
 	int		i;
 	char	**new_env;
+	char	*tmp_key;
 
 	size = -1;
 	while((*env)[++size])
@@ -34,9 +17,9 @@ static char		**add_to_env(char ***env, char *key, char *value)
 	{
 		new_env[i] = ft_strdup((*env)[i]);
 	}
-	new_env[i++] = ft_strjoin(ft_strjoin(key, "="), value);
-	ft_strdel(&key);
-	/* ft_strdel(&value); */
+	tmp_key = ft_strjoin(key, "=");
+	new_env[i++] = ft_strjoin(tmp_key, value);
+	ft_strdel(&tmp_key);
 	new_env[i] = NULL;
 	i = -1;
 	while ((*env)[++i] != NULL)
@@ -48,29 +31,12 @@ void			minishell_setenv(int argc, char **argv, char ***env)
 {
 	char	*key;
 	char	*value;
-	char	*tmp;
-	int		i;
 
 	if (argc != 3)
 		return ;
 	key = argv[1];
 	value = argv[2];
-	if (find_env(key, *env) == NULL)
-	{
-		*env = add_to_env(env, key, value);
-	}
-	else
-	{
-		i = -1;
-		while (env[++i] != NULL)
-			if (!ft_strncmp(key, *(env)[i], ft_strlen(key)))
-			{
-				tmp = *(env)[i];
-				*(env)[i] = ft_strjoin(ft_strjoin(key, "="), value);
-				ft_strdel(&tmp);
-				break ;
-			}
-	}
+	env_set(key, value, env);
 }
 
 void			minishell_getenv(int argc, char **argv, char ***env)
@@ -79,6 +45,52 @@ void			minishell_getenv(int argc, char **argv, char ***env)
 
 	if (argc != 2)
 		return ;
-	value = find_env(argv[1], *env);
+	value = env_get(argv[1], *env);
 	ft_putendl(value);
+	ft_strdel(&value);
+}
+
+void			env_set(char *key, char *value, char ***env)
+{
+	char	*tmp_line;
+	char	*tmp_key;
+	int		i;
+
+	tmp_key = env_get(key, *env);
+	if (tmp_key == NULL)
+		*env = add_to_env(env, key, value);
+	else
+	{
+		ft_strdel(&tmp_key);
+		i = -1;
+		while ((*env)[++i] != NULL)
+			if (!ft_strncmp(key, (*env)[i], ft_strlen(key)))
+			{
+				tmp_line = (*env)[i];
+				tmp_key = ft_strjoin(key, "=");
+				(*env)[i] = ft_strjoin(tmp_key, value);
+				ft_strdel(&tmp_key);
+				ft_strdel(&tmp_line);
+				break ;
+			}
+	}
+}
+
+char		*env_get(const char *name, char **env)
+{
+	int 	i;
+	char	*ret;
+	char	*value;
+
+	i = -1;
+	while (env[++i] != NULL)
+	{
+		if (!ft_strncmp(name, env[i], ft_strlen(name)) &&
+			(value = ft_strchr(env[i], '=')) != NULL)
+		{
+			ret = ft_strdup(value + 1);
+			return (ret);
+		}
+	}
+	return (NULL);
 }

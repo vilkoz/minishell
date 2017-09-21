@@ -7,11 +7,14 @@
 # include <sys/wait.h>
 
 # define BUF_SIZE 2048
+# ifndef PATH_MAX
+#  define PATH_MAX 2048
+# endif
 
 char	**parse_line(char *line);
 char	*read_line(int fd);
-void	run_command(char **command, char **envp);
-int		run_builtin(char **command, char **envp);
+void	run_command(char **command, char ***envp);
+int		run_builtin(char **command, char ***envp);
 
 /*
 ** Builtins
@@ -24,4 +27,10 @@ void	minishell_env(int argc, char **argv, char ***env);
 void	minishell_getenv(int argc, char **argv, char ***env);
 void	minishell_setenv(int argc, char **argv, char ***env);
 
+/*
+** env.c
+*/
+
+char	*env_get(const char *name, char **env);
+void	env_set(char *key, char *value, char ***env);
 #endif

@@ -1,10 +1,38 @@
 #include "minishell.h"
 
+char	**new_envp(char **envp)
+{
+	char	**new;
+	int		i;
+
+	i = -1;
+	while (envp[++i])
+		;
+	new = (char**)malloc(sizeof(char*) * (i + 1));
+	i = -1;
+	while (envp[++i])
+		new[i] = ft_strdup(envp[i]);
+	new[i] = NULL;
+	return (new);
+}
+
+void	clean_up(char *line, char **command)
+{
+	int	 i;
+
+	i = -1;
+	while (command[++i])
+		ft_strdel(&(command[i]));
+	ft_memdel(((void*)command));
+	ft_strdel(&line);
+}
+
 void	minishell_loop(char **envp)
 {
 	char	*line;
 	char	**command;
 
+	envp = new_envp(envp);
 	while (1)
 	{
 		ft_putstr("$> ");
@@ -16,11 +44,14 @@ void	minishell_loop(char **envp)
 		if (ft_strlen(line) > 0)
 		{
 			command = parse_line(line);
-			run_command(command, envp);
+			run_command(command, &envp);
 		}
 		else
+		{
+			ft_strdel(&line);
 			exit(write(1, "\n", 1));
-		ft_strdel(&line);
+		}
+		clean_up(line, command);
 	}
 }
 
