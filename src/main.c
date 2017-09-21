@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include <signal.h>
 
 char	**new_envp(char **envp)
 {
@@ -21,8 +22,11 @@ void	clean_up(char *line, char **command)
 	int	 i;
 
 	i = -1;
-	while (command[++i])
-		ft_strdel(&(command[i]));
+	if (command != NULL)
+	{
+		while (command[++i])
+			ft_strdel(&(command[i]));
+	}
 	ft_memdel(((void*)command));
 	ft_strdel(&line);
 }
@@ -43,12 +47,12 @@ void	minishell_loop(char **envp)
 	char	**command;
 
 	envp = new_envp(envp);
+	g_env = &envp;
 	while (1)
 	{
 		put_prompt(envp);
 		if ((line = read_line(0)) == NULL)
 		{
-			ft_putstr_fd("shell: input error\n", 2);
 			continue ;
 		}
 		if (ft_strlen(line) > 0)
@@ -56,19 +60,22 @@ void	minishell_loop(char **envp)
 			command = parse_line(line);
 			run_command(command, &envp);
 		}
-		else
-		{
-			ft_strdel(&line);
-			exit(write(1, "\n", 1));
-		}
 		clean_up(line, command);
 	}
+}
+
+void	sigint(int sig)
+{
+	(void)sig;
+	ft_putchar('\n');
+	put_prompt(*g_env);
 }
 
 int		main(int ac, char **av, char **envp)
 {
 	(void)ac;
 	(void)av;
+	signal(SIGINT, sigint);
 	minishell_loop(envp);
 	return (0);
 }

@@ -43,7 +43,8 @@ void	run_with_path(char **command, char **path, char ***envp)
 	}
 	if (path[i] == NULL)
 	{
-		ft_putstr_fd("shell: command not found\n", 2);
+		ft_putstr_fd("shell: command not found: ", 2);
+		ft_putendl_fd(executable_name, 2);
 		exit(1);
 	}
 	ft_strdel(&executable_name);

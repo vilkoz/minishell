@@ -12,9 +12,9 @@ char	*read_line(int fd)
 	current_buf_size = BUF_SIZE;
 	buf = (char*)malloc(sizeof(char) * BUF_SIZE);
 	cur_byte = 0;
-	while ((i = read(fd, (void*)(buf + cur_byte), 1)) >= 0)
+	while ((i = read(fd, (void*)(buf + cur_byte), 1)) > 0)
 	{
-		if (buf[cur_byte] == '\n' || i == 0)
+		if (buf[cur_byte] == '\n')
 		{
 			buf[cur_byte] = '\0';
 			return (buf);
@@ -27,6 +27,8 @@ char	*read_line(int fd)
 			current_buf_size += BUF_SIZE;
 		}
 	}
+	if (i == 0)
+		ft_putendl_fd("\nto exit type \"exit\"", 2);
 	ft_strdel(&buf);
 	return (NULL);
 }

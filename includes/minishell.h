@@ -11,6 +11,8 @@
 #  define PATH_MAX 2048
 # endif
 
+char	***g_env;
+
 char	**parse_line(char *line);
 char	*read_line(int fd);
 void	run_command(char **command, char ***envp);
