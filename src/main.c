@@ -30,10 +30,10 @@ void	clean_up(char *line, char ***command)
 			j = -1;
 			while (command[i][++j])
 				ft_strdel(&(command[i][j]));
-			ft_memdel(((void*)(command[i])));
+			ft_memdel(((void*)&(command[i])));
 		}
 	}
-	ft_memdel(((void*)command));
+	ft_memdel(((void*)&command));
 	ft_strdel(&line);
 }
 

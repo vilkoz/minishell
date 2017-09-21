@@ -25,15 +25,12 @@ static char		**copy_array_without_key(const char *key, const char **env)
 	new_env = (char**)malloc(sizeof(char*) * (get_array_size(env) + 1 - 1));
 	i = -1;
 	j = -1;
-	while ((env)[++i])
+	while ((env)[++i] != NULL)
 	{
-		if (!ft_strncmp((env)[i], key, ft_strlen(key)))
-		{
-			i++;
-			continue ;
-		}
-		new_env[++j] = ft_strdup((env)[i]);
+		if (ft_strncmp((env)[i], key, ft_strlen(key)))
+			new_env[++j] = ft_strdup((env)[i]);
 	}
+	new_env[++j] = NULL;
 	return (new_env);
 }
 

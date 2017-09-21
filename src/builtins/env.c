@@ -15,14 +15,13 @@ static char		**add_to_env(char ***env, char *key, char *value)
 	while(++i < size)
 	{
 		new_env[i] = ft_strdup((*env)[i]);
+		ft_strdel(&((*env)[i]));
 	}
 	tmp_key = ft_strjoin(key, "=");
 	new_env[i++] = ft_strjoin(tmp_key, value);
 	ft_strdel(&tmp_key);
 	new_env[i] = NULL;
-	i = -1;
-	while ((*env)[++i] != NULL)
-		ft_strdel(&((*env)[i]));
+	ft_memdel((void*)(env));
 	return (new_env);
 }
 
