@@ -13,7 +13,7 @@
 
 char	***g_env;
 
-char	**parse_line(char *line);
+char	***parse_line(char *line);
 char	*read_line(int fd);
 void	run_command(char **command, char ***envp);
 int		run_builtin(char **command, char ***envp);

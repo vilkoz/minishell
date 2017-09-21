@@ -23,7 +23,7 @@ char	*read_line(int fd)
 		if (cur_byte >= current_buf_size)
 		{
 			buf = ft_realloc(buf, sizeof(char) * current_buf_size,
-					sizeof(char) * (current_buf_size + BUF_SIZE));
+				sizeof(char) * (current_buf_size + BUF_SIZE));
 			current_buf_size += BUF_SIZE;
 		}
 	}
@@ -33,10 +33,22 @@ char	*read_line(int fd)
 	return (NULL);
 }
 
-char	**parse_line(char *line)
+char	***parse_line(char *line)
 {
-	char	**command;
+	char	**commands;
+	char	***ret;
+	int		i;
 
-	command = ft_strsplit_quote(line, ' ');
-	return (command);
+	commands = ft_strsplit_quote(line, ';');
+	ret = (char***)malloc(sizeof(char**) *
+		(get_array_size((const char**)commands) + 1));
+	i = -1;
+	while (commands[++i])
+	{
+		ret[i] = ft_strsplit_quote(commands[i], ' ');
+		ft_strdel(&(commands[i]));
+	}
+	ret[i] = NULL;
+	ft_memdel((void*)&commands);
+	return (ret);
 }

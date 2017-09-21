@@ -17,15 +17,21 @@ char	**new_envp(char **envp)
 	return (new);
 }
 
-void	clean_up(char *line, char **command)
+void	clean_up(char *line, char ***command)
 {
-	int	 i;
+	int		i;
+	int		j;
 
 	i = -1;
 	if (command != NULL)
 	{
 		while (command[++i])
-			ft_strdel(&(command[i]));
+		{
+			j = -1;
+			while (command[i][++j])
+				ft_strdel(&(command[i][j]));
+			ft_memdel(((void*)(command[i])));
+		}
 	}
 	ft_memdel(((void*)command));
 	ft_strdel(&line);
@@ -44,7 +50,8 @@ void	put_prompt(char **env)
 void	minishell_loop(char **envp)
 {
 	char	*line;
-	char	**command;
+	char	***commands;
+	int		i;
 
 	envp = new_envp(envp);
 	g_env = &envp;
@@ -52,15 +59,15 @@ void	minishell_loop(char **envp)
 	{
 		put_prompt(envp);
 		if ((line = read_line(0)) == NULL)
-		{
 			continue ;
-		}
 		if (ft_strlen(line) > 0)
 		{
-			command = parse_line(line);
-			run_command(command, &envp);
+			commands = parse_line(line);
+			i = -1;
+			while (commands[++i])
+				run_command(commands[i], &envp);
 		}
-		clean_up(line, command);
+		clean_up(line, commands);
 	}
 }
 

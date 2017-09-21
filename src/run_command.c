@@ -22,11 +22,11 @@ void	run_single(char **command, char ***envp)
 	}
 }
 
-
 void	run_with_path(char **command, char **path, char ***envp)
 {
 	size_t	i;
 	char	*executable_name;
+	char	*tmp_path;
 
 	if (command[0][0] == '/' || command[0][0] == '.' || path == NULL)
 	{
@@ -38,7 +38,9 @@ void	run_with_path(char **command, char **path, char ***envp)
 	while (execve(command[0], command, *envp) == -1 && path[i] != NULL)
 	{
 		ft_strdel(&(command[0]));
-		command[0] = ft_strjoin(ft_strjoin(path[i], "/"), executable_name);
+		tmp_path = ft_strjoin(path[i], "/");
+		command[0] = ft_strjoin(tmp_path, executable_name);
+		ft_strdel(&tmp_path);
 		i++;
 	}
 	if (path[i] == NULL)
@@ -70,4 +72,3 @@ void	run_command(char **command, char ***envp)
 	else
 		ft_putstr_fd("shell: fork error\n", 2);
 }
-
