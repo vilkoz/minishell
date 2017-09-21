@@ -22,10 +22,12 @@ void	(*check_builtin(char *name))(int, char **, char ***)
 		return minishell_exit;
 	else if (!strcmp("getenv", name))
 		return minishell_getenv;
+	else if (!strcmp("setenv", name))
+		return minishell_setenv;
 	return NULL;
 }
 
-int		run_builtin(char **command, char **envp)
+int		run_builtin(char **command, char ***envp)
 {
 	void	*function;
 
@@ -33,7 +35,7 @@ int		run_builtin(char **command, char **envp)
 	if (function != NULL)
 	{
 		((void(*)(int, char **, char ***))function)(get_array_size(command),
-			command, &envp);
+			command, envp);
 		return (1);
 	}
 	return (0);

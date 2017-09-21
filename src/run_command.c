@@ -1,21 +1,21 @@
 #include "minishell.h"
 
-char	**get_path(char **envp)
+char	**get_path(char ***envp)
 {
 	size_t	i;
 
 	i = -1;
-	while (envp[++i] != NULL)
+	while ((*envp)[++i] != NULL)
 	{
-		if (ft_strncmp("PATH=", envp[i], 5) == 0)
-			return (ft_strsplit(&(envp[i][5]), ':'));
+		if (ft_strncmp("PATH=", (*envp)[i], 5) == 0)
+			return (ft_strsplit(&((*envp)[i][5]), ':'));
 	}
 	return (NULL);
 }
 
-void	run_single(char **command, char **envp)
+void	run_single(char **command, char ***envp)
 {
-	if (execve(command[0], command, envp) == -1)
+	if (execve(command[0], command, *envp) == -1)
 	{
 		ft_putstr_fd("shell: execve single error\n", 2);
 		exit(1);
@@ -23,7 +23,7 @@ void	run_single(char **command, char **envp)
 }
 
 
-void	run_with_path(char **command, char **path, char **envp)
+void	run_with_path(char **command, char **path, char ***envp)
 {
 	size_t	i;
 	char	*executable_name;
@@ -35,7 +35,7 @@ void	run_with_path(char **command, char **path, char **envp)
 	}
 	i = 0;
 	executable_name = ft_strdup(command[0]);
-	while (execve(command[0], command, envp) == -1 && path[i] != NULL)
+	while (execve(command[0], command, *envp) == -1 && path[i] != NULL)
 	{
 		ft_strdel(&(command[0]));
 		command[0] = ft_strjoin(ft_strjoin(path[i], "/"), executable_name);
@@ -50,7 +50,7 @@ void	run_with_path(char **command, char **path, char **envp)
 	exit(1);
 }
 
-void	run_command(char **command, char **envp)
+void	run_command(char **command, char ***envp)
 {
 	pid_t	pid;
 	int		status;
