@@ -1,6 +1,5 @@
 #include "minishell.h"
 
-
 static char		**add_to_env(char ***env, char *key, char *value)
 {
 	int		size;
@@ -76,7 +75,7 @@ void			env_set(char *key, char *value, char ***env)
 	}
 }
 
-char		*env_get(const char *name, char **env)
+char			*env_get(const char *name, char **env)
 {
 	int 	i;
 	char	*ret;

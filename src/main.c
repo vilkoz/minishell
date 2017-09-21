@@ -27,6 +27,16 @@ void	clean_up(char *line, char **command)
 	ft_strdel(&line);
 }
 
+void	put_prompt(char **env)
+{
+	char	*pwd;
+
+	pwd = env_get("PWD", env);
+	ft_putstr(pwd);
+	ft_putstr(" $> ");
+	ft_strdel(&pwd);
+}
+
 void	minishell_loop(char **envp)
 {
 	char	*line;
@@ -35,7 +45,7 @@ void	minishell_loop(char **envp)
 	envp = new_envp(envp);
 	while (1)
 	{
-		ft_putstr("$> ");
+		put_prompt(envp);
 		if ((line = read_line(0)) == NULL)
 		{
 			ft_putstr_fd("shell: input error\n", 2);

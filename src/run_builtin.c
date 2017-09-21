@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int		get_array_size(char **array)
+int		get_array_size(const char **array)
 {
 	int		len;
 
@@ -24,6 +24,8 @@ void	(*check_builtin(char *name))(int, char **, char ***)
 		return minishell_getenv;
 	else if (!strcmp("setenv", name))
 		return minishell_setenv;
+	else if (!strcmp("unsetenv", name))
+		return minishell_unsetenv;
 	return NULL;
 }
 
@@ -34,8 +36,8 @@ int		run_builtin(char **command, char ***envp)
 	function = check_builtin(command[0]);
 	if (function != NULL)
 	{
-		((void(*)(int, char **, char ***))function)(get_array_size(command),
-			command, envp);
+		((void(*)(int, char **, char ***))function)(get_array_size(
+			(const char**)command), command, envp);
 		return (1);
 	}
 	return (0);

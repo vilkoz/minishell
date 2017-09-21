@@ -10,24 +10,28 @@ FLAGS = -Wall -Wextra -Werror -I$(IDIR) -g
 
 LIB = libft/libft.a
 
-SRCS = main.c			\
-	   parse_line.c		\
-	   run_command.c	\
-	   run_builtin.c	\
-	   builtins.c		\
-	   env.c
+SRCS = main.c				\
+	   parse_line.c			\
+	   run_command.c		\
+	   run_builtin.c		\
+	   builtins/builtins.c	\
+	   builtins/env.c		\
+	   builtins/unsetenv.c
 
 BINS = $(addprefix $(BIN_DIR), $(SRCS:.c=.o))
 
 all: $(NAME)
 
-makelib:
+$(BIN_DIR)/builtins:
+	mkdir -p $(BIN_DIR)/builtins
+
+$(LIB):
 	make -j4 -C libft
 
-$(NAME): $(BINS) makelib
+$(NAME): $(BINS) $(LIB)
 	gcc -o $(NAME) $(BINS) $(FLAGS) $(LIB)
 
-$(BIN_DIR)%.o: %.c
+$(BIN_DIR)%.o: %.c | $(BIN_DIR)/builtins
 	gcc $(FLAGS) -c -o $@ $<
 
 clean:

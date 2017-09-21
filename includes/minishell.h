@@ -26,6 +26,7 @@ void	minishell_exit(int argc, char **argv, char ***env);
 void	minishell_env(int argc, char **argv, char ***env);
 void	minishell_getenv(int argc, char **argv, char ***env);
 void	minishell_setenv(int argc, char **argv, char ***env);
+void	minishell_unsetenv(int argc, char **argv, char ***env);
 
 /*
 ** env.c
@@ -33,4 +34,11 @@ void	minishell_setenv(int argc, char **argv, char ***env);
 
 char	*env_get(const char *name, char **env);
 void	env_set(char *key, char *value, char ***env);
+
+/*
+** run_builtin.c
+*/
+
+int		get_array_size(const char **array);
+
 #endif

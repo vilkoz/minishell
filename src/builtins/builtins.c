@@ -44,11 +44,11 @@ void	minishell_cd(int argc, char **argv, char ***env)
 	{
 		ft_putstr_fd("shell: cd:", 2);
 		if (access(path, F_OK) == -1)
-			ft_putstr_fd("no such file or directory:", 2);
+			ft_putstr_fd("no such file or directory: ", 2);
 		else if (access(path, R_OK) == -1)
-			ft_putstr_fd("no such file or directory:", 2);
+			ft_putstr_fd("no such file or directory: ", 2);
 		else
-			ft_putstr_fd("not a directory", 2);
+			ft_putstr_fd("not a directory: ", 2);
 		ft_putendl_fd(path, 2);
 		ft_strdel(&path);
 		ft_strdel(&pwd);
