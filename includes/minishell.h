@@ -1,5 +1,17 @@
-#ifndef __MINISHEL_H
-# define __MINISHEL_H
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/09/22 14:26:17 by vrybalko          #+#    #+#             */
+/*   Updated: 2017/09/22 15:24:07 by vrybalko         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef __MINISHELL_H
+# define __MINISHELL_H
 
 # include "../libft/libft.h"
 # include <unistd.h>
@@ -42,5 +54,17 @@ void	env_set(char *key, char *value, char ***env);
 */
 
 int		get_array_size(const char **array);
+
+/*
+** main.c
+*/
+
+void	put_prompt(char **env);
+
+/*
+** signal.c
+*/
+
+void	sigint(int sig);
 
 #endif

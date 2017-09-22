@@ -1,16 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_line.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/09/22 14:29:19 by vrybalko          #+#    #+#             */
+/*   Updated: 2017/09/22 15:17:39 by vrybalko         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-char	*read_line(int fd)
+char	*read_cycle(int fd, char *buf, size_t current_buf_size)
 {
-	char	*buf;
 	int		i;
 	size_t	cur_byte;
-	size_t	current_buf_size;
 
-	if (fd < 0)
-		return (NULL);
-	current_buf_size = BUF_SIZE;
-	buf = (char*)malloc(sizeof(char) * BUF_SIZE);
 	cur_byte = 0;
 	while ((i = read(fd, (void*)(buf + cur_byte), 1)) > 0)
 	{
@@ -27,10 +33,20 @@ char	*read_line(int fd)
 			current_buf_size += BUF_SIZE;
 		}
 	}
-	if (i == 0)
-		ft_putendl_fd("\nto exit type \"exit\"", 2);
 	ft_strdel(&buf);
 	return (NULL);
+}
+
+char	*read_line(int fd)
+{
+	char	*buf;
+
+	if (fd < 0)
+		return (NULL);
+	buf = (char*)malloc(sizeof(char) * BUF_SIZE);
+	if ((buf = read_cycle(fd, buf, BUF_SIZE)) == NULL)
+		ft_putendl_fd("\nto exit type \"exit\"", 2);
+	return (buf);
 }
 
 char	***parse_line(char *line)

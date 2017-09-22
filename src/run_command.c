@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   run_command.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/09/22 14:29:34 by vrybalko          #+#    #+#             */
+/*   Updated: 2017/09/22 15:03:49 by vrybalko         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-char	**get_path(char ***envp)
+static char		**get_path(char ***envp)
 {
 	size_t	i;
 
@@ -13,28 +25,28 @@ char	**get_path(char ***envp)
 	return (NULL);
 }
 
-void	run_single(char **command, char ***envp)
+static void		run_single(char **command, char **path, char ***envp)
 {
-	if (execve(command[0], command, *envp) == -1)
+	if (command[0][0] == '/' || command[0][0] == '.' || path == NULL)
 	{
-		ft_putstr_fd("shell: execve single error\n", 2);
+		if (execve(command[0], command, *envp) == -1)
+		{
+			ft_putstr_fd("shell: execve single error\n", 2);
+			exit(1);
+		}
 		exit(1);
 	}
 }
 
-void	run_with_path(char **command, char **path, char ***envp)
+static void		run_with_path(char **command, char **path, char ***envp)
 {
 	size_t	i;
 	char	*executable_name;
 	char	*tmp_path;
 
-	if (command[0][0] == '/' || command[0][0] == '.' || path == NULL)
-	{
-		run_single(command, envp);
-		return ;
-	}
-	i = 0;
+	run_single(command, path, envp);
 	executable_name = ft_strdup(command[0]);
+	i = 0;
 	while (execve(command[0], command, *envp) == -1 && path[i] != NULL)
 	{
 		ft_strdel(&(command[0]));
@@ -47,7 +59,6 @@ void	run_with_path(char **command, char **path, char ***envp)
 	{
 		ft_putstr_fd("shell: command not found: ", 2);
 		ft_putendl_fd(executable_name, 2);
-		exit(1);
 	}
 	ft_strdel(&executable_name);
 	exit(1);

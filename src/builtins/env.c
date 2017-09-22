@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/09/22 14:30:44 by vrybalko          #+#    #+#             */
+/*   Updated: 2017/09/22 14:32:30 by vrybalko         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static char		**add_to_env(char ***env, char *key, char *value)
@@ -8,11 +20,11 @@ static char		**add_to_env(char ***env, char *key, char *value)
 	char	*tmp_key;
 
 	size = -1;
-	while((*env)[++size])
+	while ((*env)[++size])
 		;
 	new_env = (char **)malloc(sizeof(char*) * (size + 2));
 	i = -1;
-	while(++i < size)
+	while (++i < size)
 	{
 		new_env[i] = ft_strdup((*env)[i]);
 		ft_strdel(&((*env)[i]));
@@ -76,7 +88,7 @@ void			env_set(char *key, char *value, char ***env)
 
 char			*env_get(const char *name, char **env)
 {
-	int 	i;
+	int		i;
 	char	*ret;
 	char	*value;
 

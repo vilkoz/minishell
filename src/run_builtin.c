@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   run_builtin.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/09/22 14:26:45 by vrybalko          #+#    #+#             */
+/*   Updated: 2017/09/22 14:29:02 by vrybalko         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int		get_array_size(const char **array)
@@ -13,20 +25,20 @@ int		get_array_size(const char **array)
 void	(*check_builtin(char *name))(int, char **, char ***)
 {
 	if (!strcmp("ehco", name))
-		return minishell_echo;
+		return (minishell_echo);
 	else if (!strcmp("cd", name))
-		return minishell_cd;
+		return (minishell_cd);
 	else if (!strcmp("env", name))
-		return minishell_env;
+		return (minishell_env);
 	else if (!strcmp("exit", name))
-		return minishell_exit;
+		return (minishell_exit);
 	else if (!strcmp("getenv", name))
-		return minishell_getenv;
+		return (minishell_getenv);
 	else if (!strcmp("setenv", name))
-		return minishell_setenv;
+		return (minishell_setenv);
 	else if (!strcmp("unsetenv", name))
-		return minishell_unsetenv;
-	return NULL;
+		return (minishell_unsetenv);
+	return (NULL);
 }
 
 int		run_builtin(char **command, char ***envp)

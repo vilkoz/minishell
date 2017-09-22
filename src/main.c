@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/09/22 14:30:26 by vrybalko          #+#    #+#             */
+/*   Updated: 2017/09/22 15:08:05 by vrybalko         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 #include <signal.h>
 
@@ -69,13 +81,6 @@ void	minishell_loop(char **envp)
 		}
 		clean_up(line, commands);
 	}
-}
-
-void	sigint(int sig)
-{
-	(void)sig;
-	ft_putchar('\n');
-	put_prompt(*g_env);
 }
 
 int		main(int ac, char **av, char **envp)
