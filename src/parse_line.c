@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/22 14:29:19 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/11/21 17:09:44 by vitaliir         ###   ########.fr       */
+/*   Updated: 2017/11/21 23:19:43 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ char	*expand_variable(char *line, char *pos, size_t end, char *value)
 	ft_strdel(&tail);
 	line = ft_realloc((void*)line, ft_strlen(line), ft_strlen(line) + end + 1);
 	line = ft_strncat(line, value, ft_strlen(line) + end);
+	ft_strdel(&value);
 	return (line);
 }
 
@@ -72,7 +73,6 @@ char	*expand_env(char *line)
 			value = ft_strnew(0);
 		ft_strdel(&search);
 		line = expand_variable(line, pos, end, value);
-		/* ft_strdel(&value); */
 	}
 	return (line);
 }

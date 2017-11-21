@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/22 14:30:26 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/11/21 12:43:56 by vitaliir         ###   ########.fr       */
+/*   Updated: 2017/11/21 23:15:29 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void	minishell_loop(char **envp)
 	g_env = &envp;
 	while (1)
 	{
+		commands = NULL;
 		put_prompt(envp);
 		if ((line = read_line(0)) == NULL)
 			continue ;
