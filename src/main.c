@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/22 14:30:26 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/09/22 15:08:05 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/11/21 12:43:56 by vitaliir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ int		main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	signal(SIGINT, sigint);
+	signal(SIGTSTP, sigint);
+	signal(SIGQUIT, sigint);
 	minishell_loop(envp);
 	return (0);
 }

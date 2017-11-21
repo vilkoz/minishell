@@ -4,9 +4,11 @@ IDIR = includes/
 
 BIN_DIR = bin/
 
+LIB_DIR = libft/
+
 VPATH = src:includes
 
-FLAGS = -Wall -Wextra -Werror -I$(IDIR) -g
+FLAGS = -Wall -Wextra -Werror -I$(IDIR) -I$(LIB_DIR) -g
 
 LIB = libft/libft.a
 
