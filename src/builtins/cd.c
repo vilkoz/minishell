@@ -6,29 +6,35 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/22 14:35:30 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/09/22 14:43:22 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/11/22 00:24:02 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char		*choose_path(int argc, char **argv, char ***env)
+static char		*choose_path(int ac, char **av, char ***env)
 {
-	char *path;
+	char	*path;
 
-	if (argc == 1)
+	if (ac == 1 || (ac == 2 && !ft_strcmp("~", av[1])))
 		path = env_get("HOME", *env);
-	else if (argc == 2 && !ft_strcmp("-", argv[1]))
+	else if (ac == 2 && !ft_strcmp("-", av[1]))
 		path = env_get("OLDPWD", *env);
-	else if (argc != 2)
+	else if (ac != 2)
 	{
 		ft_putstr_fd("shell: cd: wrong number of arguments\n", 2);
 		return (NULL);
 	}
-	else
+	else if (ft_strlen(av[1]) > 1 && !ft_strncmp(av[1], "~", 1))
 	{
-		path = ft_strdup(argv[1]);
+		path = env_get("HOME", *env);
+		path = ft_realloc((void*)path, ft_strlen(path),
+				ft_strlen(av[1]) + ft_strlen(path) - 1);
+		path = ft_strncat(path, av[1] + 1,
+				ft_strlen(av[1]) + ft_strlen(path) - 1);
 	}
+	else
+		path = ft_strdup(av[1]);
 	return (path);
 }
 

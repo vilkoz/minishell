@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/22 14:29:19 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/11/21 23:19:43 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/11/22 23:47:40 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,9 @@ char	***parse_line(char *line)
 	while (commands[++i])
 	{
 		commands[i] = expand_env(commands[i]);
+		commands[i] = expand_tildas(commands[i]);
 		ret[i] = ft_strsplit_arr_quote(commands[i], " \t");
+		ret[i] = expand_single_tilde(ret[i]);
 		ft_strdel(&(commands[i]));
 	}
 	ret[i] = NULL;

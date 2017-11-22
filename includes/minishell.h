@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/22 14:26:17 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/09/22 15:24:07 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/11/22 23:40:34 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,5 +66,12 @@ void	put_prompt(char **env);
 */
 
 void	sigint(int sig);
+
+/*
+** tilde.c
+*/
+
+char	**expand_single_tilde(char **arg);
+char	*expand_tildas(char *line);
 
 #endif

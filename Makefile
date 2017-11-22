@@ -13,14 +13,15 @@ FLAGS = -Wall -Wextra -Werror -I$(IDIR) -I$(LIB_DIR) -g
 LIB = libft/libft.a
 
 SRCS = main.c				\
+	   tilde.c				\
 	   signal.c				\
 	   parse_line.c			\
 	   run_command.c		\
 	   run_builtin.c		\
-	   builtins/builtins.c	\
+	   builtins/cd.c		\
 	   builtins/env.c		\
 	   builtins/unsetenv.c	\
-	   builtins/cd.c		
+	   builtins/builtins.c	\
 
 BINS = $(addprefix $(BIN_DIR), $(SRCS:.c=.o))
 
